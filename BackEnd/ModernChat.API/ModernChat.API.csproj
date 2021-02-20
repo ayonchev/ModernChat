@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ModernChat.Data\ModernChat.Data.csproj" />
+    <ProjectReference Include="..\ModernChat.Models\ModernChat.Models.csproj" />
+    <ProjectReference Include="..\ModernChat.Services\ModernChat.Services.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <PreserveCompilationReferences>true</PreserveCompilationReferences>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+  </PropertyGroup>
+</Project>
