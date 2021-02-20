@@ -1,0 +1,18 @@
+#message-list-section {
+    height: 90vh;
+    overflow-y: auto;
+}
+
+#message-create-section {
+    height: 10vh;
+    width: 100%;
+    
+    textarea {
+        width: 93%;
+    }
+
+    .btn-container {
+        width: 7%;
+        text-align: center;
+    }
+}

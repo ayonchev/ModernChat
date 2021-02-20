@@ -1,7 +1,7 @@
 export enum ApiPaths {
-    AuthRegister = 'auth/register',
-    AuthLogin = 'auth/login',
-    Users = 'users',
-    Chats = 'chats',
-    Messages = 'messages'
+    AuthRegister = 'api/auth/register',
+    AuthLogin = 'api/auth/login',
+    Users = 'api/users',
+    Chats = 'api/chats',
+    Messages = 'api/messages'
 }

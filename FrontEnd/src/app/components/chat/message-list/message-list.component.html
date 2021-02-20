@@ -1,24 +1,32 @@
 <div *ngFor="let message of messages">
-    <p-card styleClass="message.authorId === currentUserId ? 'text-right' : 'text-left'">
-        <ng-template pTemplate="header">
-            <button 
-                pButton 
-                pRipple 
-                type="button" 
-                icon="pi pi-times" 
-                class="p-button-rounded p-button-danger p-button-outlined">
-            </button>
-        </ng-template>
-        {{ message.content }}
-        <ng-template pTemplate="footer">
-            <p-chip 
-                [label]="message.authorUsername"
-                icon="pi pi-user">
-            </p-chip>
-        </ng-template>
-    </p-card>
+    <div class="row mb-2">
+        <div class="col-md-8" [class.offset-4]="message.authorId === currentUserId">
+            <p-card [styleClass]="message.authorId === currentUserId ? 'text-right' : 'text-left'">
+                <ng-template pTemplate="header">
+                    <div class="p-2">
+                        <button 
+                            *ngIf="message.authorId === currentUserId"
+                            pButton 
+                            pRipple 
+                            type="button" 
+                            icon="pi pi-times" 
+                            class="p-button-rounded p-button-danger p-button-outlined"
+                            (click)="deleteMessage(message.id)">
+                        </button>
+                    </div>
+                </ng-template>
+                {{ message.content }}
+                <ng-template pTemplate="footer">
+                    <p-chip 
+                        [label]="message.authorUsername"
+                        icon="pi pi-user">
+                    </p-chip>
+                </ng-template>
+            </p-card>
+        </div>
+    </div>
 </div>
 
-<div *ngIf="messages.length === 0">
+<div *ngIf="messages?.length === 0">
     <p class="text-info">No messages.</p>
 </div>

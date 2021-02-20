@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ChatModel } from 'src/app/models/chat/chat.model';
 import { MessageCreateModel, MessageModel } from 'src/app/models/message/message.model';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -14,6 +14,7 @@ import { ApiPaths } from 'src/app/constants/api.constants';
 })
 export class ChatComponent implements OnInit, OnChanges {
   @Input() model: ChatModel;
+  @ViewChild('messageList') messageList: ElementRef;
 
   messageContent: string = '';
 
@@ -25,7 +26,10 @@ export class ChatComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.restService
       .get<MessageModel>(ApiPaths.Messages, this.model.id.toString())
-      .subscribe(res => this.model.messages = res);
+      .subscribe(res => {
+        this.model.messages = res;
+        this.scrollToBottom();
+      });
   }
 
   ngOnInit(): void {
@@ -33,6 +37,7 @@ export class ChatComponent implements OnInit, OnChanges {
       .connection
       .on(HubEvents.MessageReceived, (message: MessageModel) => {
         this.model.messages.push(message);
+        this.scrollToBottom();
       });
 
     this.notificationService
@@ -40,6 +45,8 @@ export class ChatComponent implements OnInit, OnChanges {
       .on(HubEvents.MessageDeleted, (messageId: number) => {
         this.model.messages = this.model.messages.filter(m => m.id !== messageId);
       });
+
+    this.scrollToBottom();
   }
 
   send() {
@@ -66,5 +73,9 @@ export class ChatComponent implements OnInit, OnChanges {
       .deleteMessage(messageId, this.model.id)
       .then(() => console.log('Message deleted successfully!'))
       .catch(err => console.log(err));
+  }
+
+  private scrollToBottom() {
+    this.messageList.nativeElement.scrollTop = this.messageList.nativeElement.scrollHeight;
   }
 }

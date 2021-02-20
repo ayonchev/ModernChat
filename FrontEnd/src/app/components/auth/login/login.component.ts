@@ -9,18 +9,27 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  model: LoginModel;
+  model: LoginModel = {
+    email: '',
+    password: ''
+  };
 
   constructor(
     private authService: AuthService,
     private router: Router) { }
 
   ngOnInit(): void {
+    if(this.authService.loggedIn) {
+      this.router.navigate(['']);
+    }
   }
 
   login() {
     this.authService
       .login(this.model)
-      .subscribe(res => this.router.navigate(['']));
+      .subscribe(res => {
+        this.authService.saveToken(res.token);
+        this.router.navigate([''])
+      });
   }
 }

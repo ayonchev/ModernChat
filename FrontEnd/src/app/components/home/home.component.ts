@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private messageService: MessageService) { }
 
   ngOnDestroy(): void {
-    // this.messageNotificationsService.connection.stop();
+    this.notificationService.connection.stop();
   }
 
   ngOnInit(): void {

@@ -9,17 +9,20 @@ import { BaseRestService } from 'src/app/services/rest/base-rest.service';
   styleUrls: ['./chat-list.component.scss']
 })
 export class ChatListComponent implements OnInit {
-  @Output() chatSelectionChanged: EventEmitter<number> = new EventEmitter<number>();
+  @Output() chatSelectionChanged: EventEmitter<ChatModel> = new EventEmitter<ChatModel>();
 
   chats: ChatModel[];
+  selectedChat: ChatModel;
 
   constructor(private restService: BaseRestService) { }
 
   ngOnInit(): void {
-    this.restService.get<ChatModel>(ApiPaths.Chats, undefined, { userChatsOnly: true });
+    this.restService
+      .get<ChatModel>(ApiPaths.Chats, undefined, { userChatsOnly: true })
+      .subscribe(res => this.chats = res);
   }
 
-  selectChat(chatId: number) {
-    this.chatSelectionChanged.emit(chatId);
+  selectChat() {
+    this.chatSelectionChanged.emit(this.selectedChat);
   }
 }

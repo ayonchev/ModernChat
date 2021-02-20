@@ -1,21 +1,24 @@
-<div class="message-list-section">
+<div id="message-list-section" #messageList>
     <message-list 
         [messages]="model.messages"
         (messageDeleted)="messageDeletedHandler($event)">
     </message-list>
 </div>
-<div class="message-create-section">
+<div id="message-create-section" class="d-flex justify-content-between align-items-center">
     <textarea 
         pInputTextarea 
         [(ngModel)]="messageContent"
-        [rows]="1" 
+        [rows]="2" 
         [autoResize]="true">
     </textarea>
-    <button 
-        pButton 
-        pRipple 
-        type="button" 
-        label="Send"
-        (click)="send()">
-    </button>
+    <div class="btn-container">
+        <button 
+            pButton 
+            pRipple 
+            type="button" 
+            icon="pi pi-send"
+            class="p-button-rounded p-button-primary"
+            (click)="send()">
+        </button>
+    </div>
 </div>

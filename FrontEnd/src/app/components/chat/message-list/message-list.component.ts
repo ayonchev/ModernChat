@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   styleUrls: ['./message-list.component.scss']
 })
 export class MessageListComponent implements OnInit {
-  @Input() messages: MessageModel[];
+  @Input() messages: MessageModel[] = [];
   @Output() messageDeleted: EventEmitter<number> = new EventEmitter<number>();
 
   currentUserId: number;
