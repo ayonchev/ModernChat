@@ -1,0 +1,24 @@
+<div *ngFor="let message of messages">
+    <p-card styleClass="message.authorId === currentUserId ? 'text-right' : 'text-left'">
+        <ng-template pTemplate="header">
+            <button 
+                pButton 
+                pRipple 
+                type="button" 
+                icon="pi pi-times" 
+                class="p-button-rounded p-button-danger p-button-outlined">
+            </button>
+        </ng-template>
+        {{ message.content }}
+        <ng-template pTemplate="footer">
+            <p-chip 
+                [label]="message.authorUsername"
+                icon="pi pi-user">
+            </p-chip>
+        </ng-template>
+    </p-card>
+</div>
+
+<div *ngIf="messages.length === 0">
+    <p class="text-info">No messages.</p>
+</div>

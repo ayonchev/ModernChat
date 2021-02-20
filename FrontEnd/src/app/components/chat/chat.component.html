@@ -1,0 +1,21 @@
+<div class="message-list-section">
+    <message-list 
+        [messages]="model.messages"
+        (messageDeleted)="messageDeletedHandler($event)">
+    </message-list>
+</div>
+<div class="message-create-section">
+    <textarea 
+        pInputTextarea 
+        [(ngModel)]="messageContent"
+        [rows]="1" 
+        [autoResize]="true">
+    </textarea>
+    <button 
+        pButton 
+        pRipple 
+        type="button" 
+        label="Send"
+        (click)="send()">
+    </button>
+</div>

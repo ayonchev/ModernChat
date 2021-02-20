@@ -1,0 +1,28 @@
+:host ::ng-deep .p-dropdown {
+    width: 100%;
+    height: 50%;
+}
+
+.chat-list-section {
+    height: 100vh;
+    width: 30%;
+}
+
+.chat-section {
+    height: 100vh;
+    width: 70%;
+}
+
+.chat-list-container {
+    height: 80vh;
+}
+
+.start-chat {
+    height: 12vh;
+
+    button {
+        width: 100%;
+        height: 30%;
+    }
+}
+
