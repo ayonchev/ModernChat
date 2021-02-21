@@ -21,7 +21,7 @@ namespace ModernChat.Services
             this.userManager = userManager;
         }
 
-        public async Task<string> Register(RegisterIM inputModel)
+        public async Task<string> Register(RegisterInputModel inputModel)
         {
             var user = new ApplicationUser
             {
@@ -41,7 +41,7 @@ namespace ModernChat.Services
             throw new Exception();
         }
 
-        public async Task<string> Login(LoginIM inputModel)
+        public async Task<string> Login(LoginInputModel inputModel)
         {
             var user = await userManager.FindByNameAsync(inputModel.Email);
 

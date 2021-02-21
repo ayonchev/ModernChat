@@ -14,11 +14,13 @@ namespace ModernChat.Services
     {
         private readonly IMapper mapper;
         private readonly ModernChatDbContext context;
+        private readonly HubStoreService hubStoreService;
 
-        public UserService(IMapper mapper, ModernChatDbContext context)
+        public UserService(IMapper mapper, ModernChatDbContext context, HubStoreService hubStoreService)
         {
             this.mapper = mapper;
             this.context = context;
+            this.hubStoreService = hubStoreService;
         }
 
         public async Task<List<UserViewModel>> GetUsers(int currentUserId)
@@ -28,6 +30,13 @@ namespace ModernChat.Services
                 .Where(u => u.Id != currentUserId)
                 .ProjectTo<UserViewModel>(mapper.ConfigurationProvider)
                 .ToListAsync();
+
+            var activeUserIds = hubStoreService
+                .ActiveUserConnections
+                .Where(kvp => kvp.Value > 0)
+                .Select(kvp => kvp.Key);
+
+            users.ForEach(u => u.IsActive = activeUserIds.Contains(u.Id));
 
             return users;
         }
