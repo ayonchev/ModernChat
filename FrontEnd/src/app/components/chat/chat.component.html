@@ -1,8 +1,5 @@
-<div id="message-list-section" #messageList>
-    <message-list 
-        [messages]="model.messages"
-        (messageDeleted)="messageDeletedHandler($event)">
-    </message-list>
+<div id="message-list-section">
+    <message-list [chatId]="model.id"></message-list>
 </div>
 <div id="message-create-section" class="d-flex justify-content-between align-items-center">
     <textarea 

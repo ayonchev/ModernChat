@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ChatModel } from 'src/app/models/chat/chat.model';
 import { MessageCreateModel, MessageModel } from 'src/app/models/message/message.model';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -12,9 +12,8 @@ import { ApiPaths } from 'src/app/constants/api.constants';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit, OnChanges {
+export class ChatComponent implements OnInit {
   @Input() model: ChatModel;
-  @ViewChild('messageList') messageList: ElementRef;
 
   messageContent: string = '';
 
@@ -23,31 +22,7 @@ export class ChatComponent implements OnInit, OnChanges {
     private restService: BaseRestService,
     private authService: AuthService) { }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.restService
-      .get<MessageModel>(ApiPaths.Messages, this.model.id.toString())
-      .subscribe(res => {
-        this.model.messages = res;
-        this.scrollToBottom();
-      });
-  }
-
-  ngOnInit(): void {
-    this.notificationService
-      .connection
-      .on(HubEvents.MessageReceived, (message: MessageModel) => {
-        this.model.messages.push(message);
-        this.scrollToBottom();
-      });
-
-    this.notificationService
-      .connection
-      .on(HubEvents.MessageDeleted, (messageId: number) => {
-        this.model.messages = this.model.messages.filter(m => m.id !== messageId);
-      });
-
-    this.scrollToBottom();
-  }
+  ngOnInit(): void { }
 
   send() {
     if(!this.messageContent) {
@@ -66,16 +41,5 @@ export class ChatComponent implements OnInit, OnChanges {
       .sendMessage(message)
       .then(() => this.messageContent = '')
       .catch(err => console.log(err));
-  }
-
-  messageDeletedHandler(messageId: number) {
-    this.notificationService
-      .deleteMessage(messageId, this.model.id)
-      .then(() => console.log('Message deleted successfully!'))
-      .catch(err => console.log(err));
-  }
-
-  private scrollToBottom() {
-    this.messageList.nativeElement.scrollTop = this.messageList.nativeElement.scrollHeight;
   }
 }

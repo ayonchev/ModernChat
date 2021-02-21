@@ -29,6 +29,7 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
 import { ChipModule } from 'primeng/chip';
 import { CardModule } from 'primeng/card';
 import { ToastModule } from 'primeng/toast';
+import { VirtualScrollerModule } from 'primeng/virtualscroller';
 import { JwtModule } from '@auth0/angular-jwt';
 import { MessageService } from 'primeng/api';
 
@@ -59,6 +60,7 @@ import { MessageService } from 'primeng/api';
     ChipModule,
     CardModule,
     ToastModule,
+    VirtualScrollerModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => localStorage.getItem('token')
