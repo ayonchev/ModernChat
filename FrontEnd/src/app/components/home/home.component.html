@@ -1,23 +1,21 @@
 <p-toast></p-toast>
 <div class="home-wrapper">
-    <div class="row">
-        <div class="chat-list-section col-sm-4">
-            <div class="start-chat mb-4">
-                <p class="text-center">Hello, {{ username }}</p>
-                <button pButton pRipple type="button" label="Start a chat" (click)="createChat()"></button>
-                <p-dropdown [options]="users" [(ngModel)]="selectedUser" optionLabel="username"></p-dropdown>
-            </div>
-            <div class="chat-list-container">
-                <chat-list 
-                    [activeUsers]="activeUsers"
-                    (chatSelectionChanged)="chatSelectedHandler($event)">
-                </chat-list>
-            </div>
+    <div class="chat-list-section">
+        <div class="start-chat mb-4">
+            <p class="text-center">Hello, {{ username }}</p>
+            <button pButton pRipple type="button" label="Start a chat" (click)="createChat()"></button>
+            <p-dropdown [options]="users" [(ngModel)]="selectedUser" optionLabel="username"></p-dropdown>
         </div>
-        <div class="chat-section col-sm-8" *ngIf="selectedChat">
-            <div>
-                <chat [model]="selectedChat"></chat>
-            </div>
+        <div class="chat-list-container">
+            <chat-list 
+                [activeUsers]="activeUsers"
+                (chatSelectionChanged)="chatSelectedHandler($event)">
+            </chat-list>
+        </div>
+    </div>
+    <div class="chat-section">
+        <div *ngIf="selectedChat">
+            <chat [model]="selectedChat"></chat>
         </div>
     </div>
 </div>
