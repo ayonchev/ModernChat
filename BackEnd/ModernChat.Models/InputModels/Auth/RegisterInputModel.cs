@@ -2,7 +2,7 @@
 
 namespace ModernChat.Models.InputModels.Auth
 {
-    public class LoginIM
+    public class RegisterInputModel
     {
         [Required]
         [EmailAddress]
@@ -11,5 +11,10 @@ namespace ModernChat.Models.InputModels.Auth
         [Required]
         [MinLength(1)]
         public string Password { get; set; }
+
+        [Required]
+        [MinLength(1)]
+        [Compare(nameof(Password))]
+        public string ConfirmPassword { get; set; }
     }
 }

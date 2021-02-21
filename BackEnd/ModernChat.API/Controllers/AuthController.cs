@@ -21,7 +21,7 @@ namespace ModernChat.API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterIM inputModel)
+        public async Task<IActionResult> Register(RegisterInputModel inputModel)
         {
             string token = await authService.Register(inputModel);
 
@@ -29,7 +29,7 @@ namespace ModernChat.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginIM inputModel)
+        public async Task<IActionResult> Login(LoginInputModel inputModel)
         {
             string token = await authService.Login(inputModel);
 
