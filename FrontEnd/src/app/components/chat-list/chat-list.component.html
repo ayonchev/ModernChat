@@ -1,11 +1,27 @@
-<p-table 
+<p-table
+    *ngIf="chats.length > 0"
     [value]="chats" 
     selectionMode="single" 
     [(selection)]="selectedChat" 
     (onRowSelect)="selectChat()">
     <ng-template pTemplate="body" let-chat>
         <tr [pSelectableRow]="chat">
-            <td>{{ chat.details?.name || chat.participants[0].username }}</td>
+            <td>
+                <div class="d-flex align-items-center">
+                    <div 
+                        class="chat-icon"
+                        [class.active-chat]="chat.isActive">
+                        <span 
+                            class="pi"
+                            [class.pi-user]="chat.type === ChatType.OneToOne"
+                            [class.pi-users]="chat.type === ChatType.Group">
+                        </span>
+                    </div>
+                    <h6 class="ml-2">
+                        {{ chat.details?.name || chat.participants[0].username }}
+                    </h6>
+                </div>
+            </td>
         </tr>
     </ng-template>
 </p-table>

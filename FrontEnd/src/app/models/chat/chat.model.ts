@@ -8,6 +8,7 @@ export interface ChatModel {
     details: ChatDetailsModel;
     participants: UserModel[];
     messages: MessageModel[];
+    hasActiveUsers: boolean;
 }
 
 export interface ChatCreateModel {

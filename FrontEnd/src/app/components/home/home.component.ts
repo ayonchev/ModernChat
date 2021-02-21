@@ -1,3 +1,4 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { ApiPaths } from 'src/app/constants/api.constants';
@@ -15,6 +16,8 @@ import { BaseRestService } from 'src/app/services/rest/base-rest.service';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   users: UserModel[] = [];
+  activeUsers: UserModel[] = [];
+  
   selectedUser: UserModel;
   selectedChat: ChatModel;
 
@@ -31,7 +34,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.restService.get<UserModel>(ApiPaths.Users).subscribe(res => this.users = res);
+    this.restService.get<UserModel>(ApiPaths.Users).subscribe(res => { 
+      this.users = res;
+      this.activeUsers = this.users.filter(u => u.isActive);
+    });
+
     this.username = this.authService.getUsername();
     
     this.notificationService.startConnection();
@@ -39,12 +46,22 @@ export class HomeComponent implements OnInit, OnDestroy {
       .connection
       .on(HubEvents.Connected, (username: string) => {
         this.messageService.add({ severity: 'success', summary: `${username} connected!` });
+
+        let user = this.users.find(u => u.username === username);
+        user.isActive = true;
+
+        this.activeUsers = [...this.activeUsers, user];
       });
 
     this.notificationService
       .connection
       .on(HubEvents.Disconnected, (username: string) => {
         this.messageService.add({ severity: 'error', summary: `${username} disconnected!` });
+
+        let user = this.activeUsers.find(au => au.username === username);
+        user.isActive = false;
+
+        this.activeUsers = this.activeUsers.filter(au => au.username !== username);
       });
   }
 
