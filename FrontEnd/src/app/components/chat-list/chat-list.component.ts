@@ -38,7 +38,7 @@ export class ChatListComponent implements OnInit, OnChanges {
   assignActiveChats() {
     this.chats
       .forEach(c => {
-        c.isActive = c.participants
+        c.hasActiveUsers = c.participants
           .some(p => this.activeUsers.map(au => au.username).includes(p.username));
       });
   }

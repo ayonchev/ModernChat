@@ -10,7 +10,7 @@
                 <div class="d-flex align-items-center">
                     <div 
                         class="chat-icon"
-                        [class.active-chat]="chat.isActive">
+                        [class.active-chat]="chat.hasActiveUsers">
                         <span 
                             class="pi"
                             [class.pi-user]="chat.type === ChatType.OneToOne"
