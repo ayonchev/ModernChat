@@ -1,31 +1,33 @@
-<div *ngFor="let message of messages">
-    <div class="row mb-2">
-        <div class="col-md-8" [class.offset-4]="message.authorId === currentUserId">
-            <p-card [styleClass]="message.authorId === currentUserId ? 'text-right' : 'text-left'">
-                <ng-template pTemplate="header">
-                    <div class="p-2">
-                        <button 
-                            *ngIf="message.authorId === currentUserId"
-                            pButton 
-                            pRipple 
-                            type="button" 
-                            icon="pi pi-times" 
-                            class="p-button-rounded p-button-danger p-button-outlined"
-                            (click)="deleteMessage(message.id)">
-                        </button>
-                    </div>
-                </ng-template>
-                {{ message.content }}
-                <ng-template pTemplate="footer">
-                    <p-chip 
-                        [label]="message.authorUsername"
-                        icon="pi pi-user">
-                    </p-chip>
-                </ng-template>
-            </p-card>
+<p-virtualScroller
+    #messageList
+    [value]="messages" 
+    scrollHeight="90vh" 
+    [itemSize]="150" 
+    [rows]="10">
+    <ng-template let-message pTemplate="item" let-i="index">
+        <div 
+            class="message-list-item col-md-8 p-2" 
+            [class.offset-4]="message.authorId === currentUserId"
+            [class.text-right]="message.authorId === currentUserId">
+            <div>
+                <button 
+                    *ngIf="message.authorId === currentUserId"
+                    pButton 
+                    pRipple 
+                    type="button" 
+                    icon="pi pi-times" 
+                    class="p-button-rounded p-button-danger p-button-text"
+                    (click)="deleteMessage(message.id)">
+                </button>
+            </div>
+            <h6 class="px-2">{{ message.content }}</h6>
+            <p-chip 
+                [label]="message.authorUsername"
+                icon="pi pi-user">
+            </p-chip>
         </div>
-    </div>
-</div>
+    </ng-template>
+</p-virtualScroller>
 
 <div *ngIf="messages?.length === 0">
     <p class="text-info">No messages.</p>
