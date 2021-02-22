@@ -75,5 +75,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   chatSelectedHandler(chat: ChatModel) {
     this.selectedChat = chat;
+    chat.unreadMessages = 0;
   }
 }

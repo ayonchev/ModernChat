@@ -19,6 +19,11 @@
                     </div>
                     <h6 class="ml-2">
                         {{ chat.details?.name || chat.participants[0].username }}
+                        <span 
+                            *ngIf="(chat.id !== selectedChat?.id || !selectedChat) && chat.unreadMessages > 0"
+                            class="text-white bg-danger px-2 py-1 rounded-circle">
+                            {{ chat.unreadMessages }}
+                        </span>
                     </h6>
                 </div>
             </td>

@@ -1,7 +1,10 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ApiPaths } from 'src/app/constants/api.constants';
+import { HubEvents } from 'src/app/constants/hub.constants';
 import { ChatModel, ChatType } from 'src/app/models/chat/chat.model';
+import { MessageModel } from 'src/app/models/message/message.model';
 import { UserModel } from 'src/app/models/user/user.model';
+import { NotificationService } from 'src/app/services/real-time/notification.service';
 import { BaseRestService } from 'src/app/services/rest/base-rest.service';
 
 @Component({
@@ -17,9 +20,10 @@ export class ChatListComponent implements OnInit, OnChanges {
 
   chats: ChatModel[] = [];
   selectedChat: ChatModel;
-  activeUserStyle
 
-  constructor(private restService: BaseRestService) { }
+  constructor(
+    private restService: BaseRestService,
+    private notificationService: NotificationService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.assignActiveChats();
@@ -28,7 +32,20 @@ export class ChatListComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.restService
       .get<ChatModel>(ApiPaths.Chats, undefined, { userChatsOnly: true })
-      .subscribe(res =>  { this.chats = res; this.assignActiveChats(); });
+      .subscribe(res =>  { 
+        this.chats = res; 
+        this.chats.forEach(c => c.unreadMessages = 0);
+        this.assignActiveChats(); 
+      });
+
+    this.notificationService
+      .connection
+      .on(HubEvents.MessageReceived, (message: MessageModel) => {
+        if(message.chatId != this.selectedChat.id) {
+          let chat = this.chats.find(c => c.id === message.chatId);
+          chat.unreadMessages++;
+        }
+      });
   }
 
   selectChat() {
