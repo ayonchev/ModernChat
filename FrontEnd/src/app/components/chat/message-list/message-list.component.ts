@@ -41,8 +41,10 @@ export class MessageListComponent implements OnInit, OnChanges {
     this.notificationService
       .connection
       .on(HubEvents.MessageReceived, (message: MessageModel) => {
-        this.messages = [...this.messages, message];// The scroller doesn't reflect when a new item is pushed to the array. :(
-        this.scrollToBottom();
+        if(message.chatId === this.chatId) {
+          this.messages = [...this.messages, message];// The scroller doesn't reflect when a new item is pushed to the array. :(
+          this.scrollToBottom();
+        }
       });
 
     this.notificationService
