@@ -64,7 +64,6 @@ import { MessageService } from 'primeng/api';
     JwtModule.forRoot({
       config: {
         tokenGetter: () => localStorage.getItem('token')
-        // allowedDomains: ["localhost:5000", "http://api.test.tms-eu.com"]
       }
     })
   ],

@@ -27,8 +27,6 @@ export class NotificationService {
       .start()
       .then(() => console.log('Connection started!'))
       .catch(err => console.log('Connection failed! ' + err));
-
-    this.connection.state
   }
 
   sendMessage(message: MessageCreateModel): Promise<any> {
