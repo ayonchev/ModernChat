@@ -56,7 +56,7 @@ namespace ModernChat.Services
             var chat = mapper.Map<Chat>(inputModel);
             chat.Participants = new List<ChatParticipant>();
 
-            if (chat.Type == Domain.Entities.Enums.ChatType.OneToOne)
+            if (chat.Type == ChatType.OneToOne)
             {
                 chat.Details = null;
 
@@ -64,26 +64,19 @@ namespace ModernChat.Services
                 {
                     throw new InvalidOperationException("Invalid chat type!");
                 }
-
-                chat.Participants.Add(new ChatParticipant()
-                {
-                    UserId = currentUserId
-                });
-
-                //var participants = new int[] { currentUserId, inputModel.ParticipantIds[0] };
-
-                //context.Chats
-                //       .Any(c => c.Type == ChatType.OneToOne && 
-                   
             }
 
-            foreach (var userId in inputModel.ParticipantIds)
+            chat.Participants = inputModel.ParticipantIds
+                .Select(pId => new ChatParticipant
+                {
+                    UserId = pId
+                })
+                .ToList();
+
+            chat.Participants.Add(new ChatParticipant()
             {
-                chat.Participants.Add(new ChatParticipant
-                {
-                    UserId = userId
-                });
-            }
+                UserId = currentUserId
+            });
 
             context.Chats.Add(chat);
             await context.SaveChangesAsync();
